@@ -1,5 +1,5 @@
 
-public class OfferOrder extends Order implements IAnonymous{
+public class OfferOrder extends Order implements IAnonymous, Comparable{
 
 	public OfferOrder(String iD, double price, int volume) {
 		super(iD, price, volume);
@@ -8,8 +8,7 @@ public class OfferOrder extends Order implements IAnonymous{
 
 	@Override
 	public String toStringAnon() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Off:	" + this.getPrice() + "	" + this.getVolume();
 	}
 
 }

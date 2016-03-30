@@ -23,23 +23,34 @@ import java.util.TreeSet;
 
 public class OrderBook {
 	
-	// arraylist
-	// treelist (sorted collection)
-	private TreeSet<BidOrder> bidBook = new TreeSet<BidOrder>();
-	private TreeSet<OfferOrder> offerBook = new TreeSet<OfferOrder>();
-//	for(Order o : orderBook){
-//			
-//		}
-//	}
-	public void outputBook() {
-		
+	static TreeSet<BidOrder> bidBook = new TreeSet<BidOrder>();
+	static TreeSet<OfferOrder> offerBook = new TreeSet<OfferOrder>();
+
+	public static void addBid(BidOrder o) {
+		bidBook.add(o);
+	}
+	
+	public static void addOffer(OfferOrder o) {
+		offerBook.add(o);
+	}
+	
+	
+	
+	public static void outputBook() {
+		System.out.println("Order book");
+		for(OfferOrder o: offerBook) {
+			System.out.println(o.toStringAnon());
+		}
+		for(BidOrder o: bidBook) {
+			System.out.println(o.toStringAnon());
+		}
 	}
 		
-	
-	public void outputBBO() {
+	public static void outputBBO() {
 		
-		System.out.println(bidBook.first());
-		System.out.println(offerBook.first());
+		System.out.println(offerBook.last().toStringAnon());
+		System.out.println(bidBook.first().toStringAnon());
 	}
 	
 }
+

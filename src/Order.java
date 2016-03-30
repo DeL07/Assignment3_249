@@ -13,7 +13,7 @@ import java.util.Comparator;
 	assume there is only one stock being traded and so we will not include it as a variable
 	in any Order object */
 
-public class Order implements Comparable {
+public class Order implements Comparable, IAnonymous {
 
 	private String ID;
 	private double price;
@@ -102,6 +102,12 @@ public class Order implements Comparable {
 	public int compareTo(Object o) {
 		Order order1 = (Order) o;
 		return (int) (order1.getPrice() - this.price);
+	}
+
+	@Override
+	public String toStringAnon() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

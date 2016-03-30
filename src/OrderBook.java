@@ -1,3 +1,5 @@
+import java.util.TreeSet;
+
 /* @formatter:off
  * 	Create an OrderBook object as a linked data structure. Specifically, it
 	should be a doubly linked list where unmatched Order objects can be inserted, and
@@ -21,7 +23,23 @@
 
 public class OrderBook {
 	
+	// arraylist
+	// treelist (sorted collection)
+	private TreeSet<BidOrder> bidBook = new TreeSet<BidOrder>();
+	private TreeSet<OfferOrder> offerBook = new TreeSet<OfferOrder>();
+//	for(Order o : orderBook){
+//			
+//		}
+//	}
+	public void outputBook() {
+		
+	}
+		
 	
-	
+	public void outputBBO() {
+		
+		System.out.println(bidBook.first());
+		System.out.println(offerBook.first());
+	}
 	
 }

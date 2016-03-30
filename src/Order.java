@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 /*	Create a parent Order object that is not specifically a bid or offer but contains
 	all the common members a bid and an offer would have. Then create a BidOrder
 	object and an OfferOrder object, both which extend the parent offer object
@@ -11,11 +13,18 @@
 	assume there is only one stock being traded and so we will not include it as a variable
 	in any Order object */
 
-public class Order {
+public class Order implements Comparable {
 
 	private String ID;
 	private double price;
 	private int volume;
+
+	public Order(String iD, double price, int volume) {
+		super();
+		ID = iD;
+		this.price = price;
+		this.volume = volume;
+	}
 
 	public String getID() {
 		return ID;
@@ -78,6 +87,21 @@ public class Order {
 
 	public static void main(String[] args) {
 
+	}
+
+
+//	@Override
+//	public int compare(Object o1, Object o2) {
+//		Order order1 = (Order) o1;
+//		Order order2 = (Order) o2;
+//		
+//		return (int) (order1.getPrice() - order2.getPrice());
+//	}
+
+	@Override
+	public int compareTo(Object o) {
+		Order order1 = (Order) o;
+		return (int) (order1.getPrice() - this.price);
 	}
 
 }

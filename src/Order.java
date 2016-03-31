@@ -1,4 +1,5 @@
 import java.util.Comparator;
+import java.util.Date;
 
 /*	Create a parent Order object that is not specifically a bid or offer but contains
 	all the common members a bid and an offer would have. Then create a BidOrder
@@ -18,12 +19,18 @@ public class Order implements Comparable, IAnonymous {
 	private String ID;
 	private double price;
 	private int volume;
+	Date dateCreated;
 
 	public Order(String iD, double price, int volume) {
 		super();
 		ID = iD;
 		this.price = price;
 		this.volume = volume;
+		dateCreated = new Date();
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
 	}
 
 	public String getID() {
@@ -79,6 +86,12 @@ public class Order implements Comparable, IAnonymous {
 
 	@Override
 	public String toStringAnon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String FullDetails() {
 		// TODO Auto-generated method stub
 		return null;
 	}

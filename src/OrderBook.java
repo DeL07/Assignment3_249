@@ -45,13 +45,18 @@ public class OrderBook implements IAnonymous{
 	}
 		
 	public static void outputBBO() {
-		System.out.println(offerBook.last().toStringAnon());
-		System.out.println(bidBook.first().toStringAnon());
+		if (offerBook.pollLast() == null)
+			System.out.println("No offers in books");
+		else
+			System.out.println(offerBook.last().toStringAnon());
+		if (bidBook.pollFirst() == null)
+			System.out.println("No bids in books");
+		else
+			System.out.println(bidBook.first().toStringAnon());
 	}
 	
 	// Inner class with nodes using ^^ those methods and assigning them?
-	
-	//Add spread and more functionality for use in matching engine
+	// Add spread and more functionality for use in matching engine
 	
 	public static void BestOffer() {
 		OfferOrder BestOffer;
@@ -60,7 +65,7 @@ public class OrderBook implements IAnonymous{
 	
 	public static double BestOfferPrice() {
 		OfferOrder BestOffer;
-		BestOffer = offerBook.last();
+		BestOffer = offerBook.pollLast();
 		return BestOffer.getPrice();
 	}
 	
@@ -83,7 +88,9 @@ public class OrderBook implements IAnonymous{
 	
 	public static double BestBidPrice() {
 		BidOrder BestBid;
-		BestBid = bidBook.first();
+		BestBid = bidBook.pollFirst();
+		if (BestBid == null)
+				return 0;
 		return BestBid.getPrice();
 	}
 	
@@ -116,6 +123,12 @@ public class OrderBook implements IAnonymous{
 		 }
 		 
 		 return "Clearly you fucked up";
+	}
+
+	@Override
+	public String FullDetails() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

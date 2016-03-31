@@ -32,18 +32,51 @@ import java.util.TreeSet;
 
 
 public class Driver {
+	
+	// Matching engine
+			 public static void matching(Order o) {
+				 if (o.getClass().equals(BidOrder.class)) {
+					 
+				 }
+				 
+				 if (o.getClass().equals(OfferOrder.class)) {
+					 System.out.println("\nMatching a new Offer Order:");
+					 System.out.println(o.toStringAnon());
+					 while ((o.getPrice() <= OrderBook.BestBidPrice()) & o.getVolume() > 0) {
+		
+						 System.out.println("\nMatch found:");
+						 System.out.println(o.FullDetails());
+						 System.out.println(OrderBook.bidBook.first().FullDetails());
+						 // Checks if offer volume minus bid volume is greater or equal to zero, then sets it to that if it is
+						 // Else means that volume <= 0, volume is updated and bid is removed
+						 if ((o.getVolume() - OrderBook.bidBook.first().getVolume()) > 0) {
+							 OrderBook.bidBook.first().setVolume(o.getVolume() - OrderBook.bidBook.first().getVolume());
+						 } else {
+							 OrderBook.bidBook.first().setVolume(0);
+							 OrderBook.bidBook.remove(OrderBook.bidBook.first());
+						 }
+						 
+						 if ((o.getVolume() - OrderBook.bidBook.first().getVolume()) > 0 ) {
+							 o.setVolume(o.getVolume() - OrderBook.bidBook.first().getVolume());
+						 } else {
+							 o.setVolume(0);
+							 OrderBook.offerBook.remove(o);
+						 }
+						 
+					 }
+				 }
+			 }
 
 	public static void main(String[] args) {
-
 		
-		OfferOrder o1 = new OfferOrder("Bob", 155.0, 300);
-		OfferOrder o2 = new OfferOrder("Alice", 152.5, 120);
-		OfferOrder o3 = new OfferOrder("Charlie", 152.0, 100);
-		OfferOrder o4 = new OfferOrder("Billy", 146.6, 400);
-		BidOrder b1 = new BidOrder("Nana", 148.0, 75);
-		BidOrder b2 = new BidOrder("Lana", 147.0, 200);
-		BidOrder b3 = new BidOrder("Jaba", 146.6, 100);
-		BidOrder b4 = new BidOrder("Fana", 146.5, 50);
+		Order o1 = new OfferOrder("Bob", 155.0, 300);
+		Order o2 = new OfferOrder("Alice", 152.5, 120);
+		Order o3 = new OfferOrder("Charlie", 152.0, 100);
+		Order o4 = new OfferOrder("Billy", 146.6, 400);
+		Order b1 = new BidOrder("Nana", 148.0, 75);
+		Order b2 = new BidOrder("Lana", 147.0, 200);
+		Order b3 = new BidOrder("Jaba", 146.6, 100);
+		Order b4 = new BidOrder("Fana", 146.5, 50);
 		
 		OrderBook.addOffer(o1);
 		OrderBook.addOffer(o2);
@@ -54,12 +87,23 @@ public class Driver {
 		OrderBook.addBid(b2);
 		OrderBook.addBid(b3);
 		OrderBook.addBid(b4);
+			
+//		OrderBook.outputBook();
+//		System.out.println();
+//		OrderBook.outputBBO();
 		
-		System.out.println(OrderBook.offerBook.size());
+		BidOrder b5 = new BidOrder("Chuky", 148.9, 300);
 		
-		OrderBook.outputBook();
-		System.out.println();
-		OrderBook.outputBBO();
+		OrderBook.addBid(b5);
+		
+		System.out.println(o4.getClass());
+		matching(o4);
+		
+		
+//		System.out.println();
+//		OrderBook.outputBook();
+//		System.out.println();
+//		OrderBook.outputBBO();
 		
 //		IAnonymous iO1 = (IAnonymous) o1;
 //		iO1.toStringAnon();

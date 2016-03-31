@@ -66,10 +66,15 @@ public class Order implements Comparable, IAnonymous {
 //		return (int) (order1.getPrice() - order2.getPrice());
 //	}
 
+	//Equals for volume and id
 	@Override
-	public double compareTo(Object o) {
+	public int compareTo(Object o) {
 		Order order1 = (Order) o;
-		return (double) (order1.getPrice() - this.price);
+		if ((order1.getPrice() - this.price) < 0)
+			return -1;
+		if ((order1.getPrice() - this.price) > 0)
+			return 1;
+		return 0;
 	}
 
 	@Override
@@ -77,5 +82,7 @@ public class Order implements Comparable, IAnonymous {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

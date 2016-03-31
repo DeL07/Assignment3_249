@@ -4,4 +4,6 @@ public interface IAnonymous {
 	// orders and (2) it requires a second method, printFullDetails() be
 	// implemented, that will print out the name along with the other details
 	public String toStringAnon();
+	
+	public String FullDetails();
 }

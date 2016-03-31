@@ -21,35 +21,101 @@ import java.util.TreeSet;
 		• public void outputBook(): print out the OrderBook (note interface requirements below)
 		• public void outputBBO(): print out the best bid and offer (BBO) @formatter:on*/
 
-public class OrderBook {
+public class OrderBook implements IAnonymous{
 	
 	static TreeSet<BidOrder> bidBook = new TreeSet<BidOrder>();
 	static TreeSet<OfferOrder> offerBook = new TreeSet<OfferOrder>();
 
-	public static void addBid(BidOrder o) {
-		bidBook.add(o);
+	public static void addBid(Order o) {
+		bidBook.add((BidOrder) o);
 	}
 	
-	public static void addOffer(OfferOrder o) {
-		offerBook.add(o);
+	public static void addOffer(Order o) {
+		offerBook.add((OfferOrder) o);
 	}
-	
-	
 	
 	public static void outputBook() {
 		System.out.println("Order book");
-		for(OfferOrder o: offerBook) {
+		for (OfferOrder o: offerBook) {
 			System.out.println(o.toStringAnon());
 		}
-		for(BidOrder o: bidBook) {
+		for (BidOrder o: bidBook) {
 			System.out.println(o.toStringAnon());
 		}
 	}
 		
 	public static void outputBBO() {
-		
 		System.out.println(offerBook.last().toStringAnon());
 		System.out.println(bidBook.first().toStringAnon());
+	}
+	
+	// Inner class with nodes using ^^ those methods and assigning them?
+	
+	//Add spread and more functionality for use in matching engine
+	
+	public static void BestOffer() {
+		OfferOrder BestOffer;
+		BestOffer = offerBook.last();
+	}
+	
+	public static double BestOfferPrice() {
+		OfferOrder BestOffer;
+		BestOffer = offerBook.last();
+		return BestOffer.getPrice();
+	}
+	
+	public static int BestOfferVol() {
+		OfferOrder BestOffer;
+		BestOffer = offerBook.last();
+		return BestOffer.getVolume();
+	}
+	
+	public static String BestOfferID() {
+		OfferOrder BestOffer;
+		BestOffer = offerBook.last();
+		return BestOffer.getID();
+	}
+	
+	public static void BestBid() {
+		BidOrder BestBid;
+		BestBid = bidBook.first();
+	}
+	
+	public static double BestBidPrice() {
+		BidOrder BestBid;
+		BestBid = bidBook.first();
+		return BestBid.getPrice();
+	}
+	
+	public static int BestBidVol() {
+		BidOrder BestBid;
+		BestBid = bidBook.first();
+		return BestBid.getVolume();
+	}
+	
+	public static String BestBidID() {
+		BidOrder BestBid;
+		BestBid = bidBook.first();
+		return BestBid.getID();
+	}
+
+	@Override
+	public String toStringAnon() {
+	
+		return null;
+	}
+
+	@Override
+	public String FullDetails(Order o) {
+		if (this.getClass().equals("BidOrder")) {
+			return "Bid:	" + BestBidPrice() + "	" + BestBidVol() + "	" + BestBidID();
+		 }
+		 
+		 if (this.getClass().equals("OfferOrder")) {
+			 return "Off:	" + BestOfferPrice() + "	" + BestOfferVol() + "	" + BestOfferID();
+		 }
+		 
+		 return "Clearly you fucked up";
 	}
 	
 }

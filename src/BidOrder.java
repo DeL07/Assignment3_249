@@ -10,5 +10,9 @@ public class BidOrder extends Order implements IAnonymous, Comparable{
 	public String toStringAnon() {
 		return "Bid:	" + this.getPrice() + "	" + this.getVolume();
 	}
-
+	
+	@Override
+	public String FullDetails() {
+		return "Bid:	" + this.getPrice() + "	" + this.getVolume() + "	" + this.getID();
+	}
 }

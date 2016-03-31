@@ -11,4 +11,9 @@ public class OfferOrder extends Order implements IAnonymous, Comparable{
 		return "Off:	" + this.getPrice() + "	" + this.getVolume();
 	}
 
+	@Override
+	public String FullDetails() {
+		return "Off:	" + this.getPrice() + "	" + this.getVolume() + "	" + this.getID();
+	}
+	
 }

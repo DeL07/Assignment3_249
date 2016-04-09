@@ -131,5 +131,13 @@ public class OrderBook implements IAnonymous{
 		return null;
 	}
 	
+	
+	
+	public class Node{
+		protected Node nextNode;
+		protected Node prevNode;
+		protected String data;
+	}
+	
 }
 

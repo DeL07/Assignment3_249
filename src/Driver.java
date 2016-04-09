@@ -34,22 +34,33 @@ import java.util.TreeSet;
 public class Driver {
 	
 			public static boolean priceCheck(Order o){
-				if (OrderBook.bidBook.isEmpty())
+			 if (o.getClass().equals(OfferOrder.class)) {
+				if (OrderBook.bidBook.isEmpty() | OrderBook.offerBook.isEmpty())
 					return false;
-				if (o.getPrice() <= OrderBook.bidBook.first().getPrice())
+				if (OrderBook.offerBook.last().getPrice() <= OrderBook.bidBook.first().getPrice())
 					return true;
 				else
 					return false;
+			 }
+			 if (o.getClass().equals(BidOrder.class)) {
+				 if (OrderBook.bidBook.isEmpty() | OrderBook.offerBook.isEmpty())
+						return false;
+					if (OrderBook.bidBook.first().getPrice() >= OrderBook.offerBook.last().getPrice())
+						return true;
+					else
+						return false;
+			 }
+			 return false;
 			}
 			
 			public static int volCompare(Order o) {
-				if (OrderBook.bidBook.isEmpty())
+				if (OrderBook.bidBook.isEmpty() | OrderBook.offerBook.isEmpty())
 					return 2;
 				else {
-					if (o.getVolume() > OrderBook.bidBook.first().getVolume()) {
+					if (OrderBook.offerBook.last().getVolume() > OrderBook.bidBook.first().getVolume()) {
 						return 1;
 					}
-					if (o.getVolume() < OrderBook.bidBook.first().getVolume()) {
+					if (OrderBook.offerBook.last().getVolume() < OrderBook.bidBook.first().getVolume()) {
 						return -1;
 					}	
 				}
@@ -60,7 +71,14 @@ public class Driver {
 	// Matching engine
 			 public static void matching(Order o) {
 				 if (o.getClass().equals(BidOrder.class)) {
+					 System.out.println("\nMatching a new Offer Order:");
+					 System.out.println(o.toStringAnon());
 					 
+					 if (OrderBook.offerBook.isEmpty()) {
+						 System.out.println("There are no offers currently");
+						 System.out.println("Bid has been set");
+						 return;
+					 }
 				 }
 				 
 				 if (o.getClass().equals(OfferOrder.class)) {
@@ -77,28 +95,28 @@ public class Driver {
 						
 						System.out.println("\nMatch found:");
 						System.out.println(OrderBook.offerBook.last().FullDetails());
-						System.out.println(OrderBook.bidBook.pollFirst().FullDetails());
-						System.out.println("CASE# " + volCompare(o));
+						System.out.println(OrderBook.bidBook.first().FullDetails());
+
 						
 						switch(volCompare(o)) {
 							
 						case 0: 
-							o.setVolume(0);
+							OrderBook.offerBook.last().setVolume(0);
 							OrderBook.bidBook.first().setVolume(0);
-							OrderBook.offerBook.remove(o);
+							OrderBook.offerBook.remove(OrderBook.offerBook.last());
 							OrderBook.bidBook.remove(OrderBook.bidBook.first());
 							break;
 						
 						case 1: 
-							o.setVolume(o.getVolume()-OrderBook.bidBook.first().getVolume());
+							OrderBook.offerBook.last().setVolume(OrderBook.offerBook.last().getVolume()-OrderBook.bidBook.first().getVolume());
 							OrderBook.bidBook.first().setVolume(0);
 							OrderBook.bidBook.remove(OrderBook.bidBook.first());
 							break;	
 							
 						case -1:
 							OrderBook.bidBook.first().setVolume(OrderBook.bidBook.first().getVolume()-o.getVolume());
-							o.setVolume(0);
-							OrderBook.offerBook.remove(o);
+							OrderBook.offerBook.last().setVolume(0);
+							OrderBook.offerBook.remove(OrderBook.offerBook.last());
 							break;
 						
 						case 2:
@@ -106,7 +124,6 @@ public class Driver {
 							break;
 							
 						default:
-							
 							break;
 						}
 						
@@ -125,8 +142,8 @@ public class Driver {
 		Order o1 = new OfferOrder("Bob", 155.0, 50);
 		Order o2 = new OfferOrder("Alice", 152.5, 120);
 		Order o3 = new OfferOrder("Charlie", 152.0, 100);
-		Order o4 = new OfferOrder("Billy", 142.6, 26);
-		Order b1 = new BidOrder("Nana", 148.0, 26);
+		Order o4 = new OfferOrder("Billy", 142.6, 260);
+		Order b1 = new BidOrder("Nana", 156.0, 2600);
 		Order b2 = new BidOrder("Lana", 145.0, 20);
 		Order b3 = new BidOrder("Jaba", 146.6, 10);
 		Order b4 = new BidOrder("Fana", 146.5, 50);

@@ -112,7 +112,7 @@ public class OrderBook implements IAnonymous{
 		return null;
 	}
 
-	@Override
+
 	public String FullDetails(Order o) {
 		if (this.getClass().equals("BidOrder")) {
 			return "Bid:	" + BestBidPrice() + "	" + BestBidVol() + "	" + BestBidID();

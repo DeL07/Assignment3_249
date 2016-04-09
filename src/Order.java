@@ -77,14 +77,14 @@ public class Order implements Comparable, IAnonymous {
 	@Override
 	public int compareTo(Object o) {
 		Order order1 = (Order) o;
-		if((order1.getPrice() == this.price)) {
-			if (order1.getDateCreated().before(this.getDateCreated()) ){
-				return -1;
-			}else{
-				return 1;
-			}
-
-		}
+//		if((order1.getPrice() == this.price)) {
+//			if (order1.getDateCreated().before(this.getDateCreated()) ){
+//				return -1;
+//			}else{
+//				return 1;
+//			}
+//
+//		}
 		if ((order1.getPrice() - this.price) < 0)
 			return -1;
 		if ((order1.getPrice() - this.price) > 0)

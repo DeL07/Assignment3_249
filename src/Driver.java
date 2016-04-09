@@ -33,73 +33,117 @@ import java.util.TreeSet;
 
 public class Driver {
 	
+			public static boolean priceCheck(Order o){
+			 if (o.getClass().equals(OfferOrder.class)) {
+				if (OrderBook.bidBook.isEmpty() | OrderBook.offerBook.isEmpty())
+					return false;
+				if (OrderBook.offerBook.last().getPrice() <= OrderBook.bidBook.first().getPrice())
+					return true;
+				else
+					return false;
+			 }
+			 if (o.getClass().equals(BidOrder.class)) {
+				 if (OrderBook.bidBook.isEmpty() | OrderBook.offerBook.isEmpty())
+						return false;
+					if (OrderBook.bidBook.first().getPrice() >= OrderBook.offerBook.last().getPrice())
+						return true;
+					else
+						return false;
+			 }
+			 return false;
+			}
+			
+			public static int volCompare(Order o) {
+				if (OrderBook.bidBook.isEmpty() | OrderBook.offerBook.isEmpty())
+					return 2;
+				else {
+					if (OrderBook.offerBook.last().getVolume() > OrderBook.bidBook.first().getVolume()) {
+						return 1;
+					}
+					if (OrderBook.offerBook.last().getVolume() < OrderBook.bidBook.first().getVolume()) {
+						return -1;
+					}	
+				}
+				return 0;
+
+			}
+	
 	// Matching engine
 			 public static void matching(Order o) {
 				 if (o.getClass().equals(BidOrder.class)) {
+					 System.out.println("\nMatching a new Offer Order:");
+					 System.out.println(o.toStringAnon());
 					 
+					 if (OrderBook.offerBook.isEmpty()) {
+						 System.out.println("There are no offers currently");
+						 System.out.println("Bid has been set");
+						 return;
+					 }
 				 }
 				 
 				 if (o.getClass().equals(OfferOrder.class)) {
 					 System.out.println("\nMatching a new Offer Order:");
 					 System.out.println(o.toStringAnon());
-					 if (OrderBook.bidBook.pollFirst() == null) {
-						return;
-					 }
-					 while ((o.getPrice() <= OrderBook.BestBidPrice()) & o.getVolume() > 0 & OrderBook.bidBook.pollFirst() != null) {
-		
-						 System.out.println("\nMatch found:");
-						 System.out.println(o.FullDetails());
-						 System.out.println(OrderBook.bidBook.pollFirst().FullDetails());
-						 
-						 // Checks if offer volume minus bid volume is greater or equal to zero, then sets it to that if it is
-						 // Else means that volume <= 0, volume is updated and bid is removed
-						 
-						 if ((o.getVolume() - OrderBook.bidBook.first().getVolume()) >= 0) {
-							 if ((o.getVolume() - OrderBook.bidBook.first().getVolume()) == 0) {
-								 o.setVolume(0);
-								 OrderBook.offerBook.remove(o);
-								 OrderBook.bidBook.first().setVolume(0);
-								 OrderBook.bidBook.remove(OrderBook.bidBook.first());
-								 System.out.println("equires - both removed");
-							 }
-							 System.out.println("in");
-							 o.setVolume(o.getVolume() - OrderBook.bidBook.first().getVolume());
-							 System.out.println("offerset");
-							 OrderBook.bidBook.first().setVolume(0);
-							 System.out.println("bidset");
-							 OrderBook.bidBook.remove(OrderBook.bidBook.first());
-							 System.out.println("bidremoved");
-						 } else {
-							 System.out.println("else");
-							 o.setVolume(0);
-							 OrderBook.offerBook.remove(o);
-							 System.out.println("Offer removed");
-							 if (OrderBook.bidBook.first().getVolume() - o.getVolume() > 0) {
-								 System.out.println("bid volume remaining");
-								 OrderBook.bidBook.first().setVolume(OrderBook.bidBook.first().getVolume() - o.getVolume());
-							 } else {
-								 System.out.println("no bid volume remaining");
-								 OrderBook.bidBook.first().setVolume(0);
-								 OrderBook.bidBook.remove(OrderBook.bidBook.first());
-								 System.out.println("removed bid");
-							 }
-							 if (OrderBook.bidBook.pollFirst() == null) {
-									return;
-								 }
-						 }	 
-					 } // End While
 					 
+					 if (OrderBook.bidBook.isEmpty()) {
+						 System.out.println("There are no bids currently");
+						 System.out.println("Offer has been set");
+						 return;
+					 }
+					
+					while (priceCheck(o)) {
+						
+						System.out.println("\nMatch found:");
+						System.out.println(OrderBook.offerBook.last().FullDetails());
+						System.out.println(OrderBook.bidBook.first().FullDetails());
+
+						
+						switch(volCompare(o)) {
+							
+						case 0: 
+							OrderBook.offerBook.last().setVolume(0);
+							OrderBook.bidBook.first().setVolume(0);
+							OrderBook.offerBook.remove(OrderBook.offerBook.last());
+							OrderBook.bidBook.remove(OrderBook.bidBook.first());
+							break;
+						
+						case 1: 
+							OrderBook.offerBook.last().setVolume(OrderBook.offerBook.last().getVolume()-OrderBook.bidBook.first().getVolume());
+							OrderBook.bidBook.first().setVolume(0);
+							OrderBook.bidBook.remove(OrderBook.bidBook.first());
+							break;	
+							
+						case -1:
+							OrderBook.bidBook.first().setVolume(OrderBook.bidBook.first().getVolume()-o.getVolume());
+							OrderBook.offerBook.last().setVolume(0);
+							OrderBook.offerBook.remove(OrderBook.offerBook.last());
+							break;
+						
+						case 2:
+							System.out.println("No bids left");
+							break;
+							
+						default:
+							break;
+						}
+						
+					}
 					 
 				 }
 			 }
+
+	private static void Switch(int volCheck) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public static void main(String[] args) {
 		
 		Order o1 = new OfferOrder("Bob", 155.0, 50);
 		Order o2 = new OfferOrder("Alice", 152.5, 120);
 		Order o3 = new OfferOrder("Charlie", 152.0, 100);
-		Order o4 = new OfferOrder("Billy", 142.6, 20);
-		Order b1 = new BidOrder("Nana", 148.0, 26);
+		Order o4 = new OfferOrder("Billy", 142.6, 260);
+		Order b1 = new BidOrder("Nana", 156.0, 2600);
 		Order b2 = new BidOrder("Lana", 145.0, 20);
 		Order b3 = new BidOrder("Jaba", 146.6, 10);
 		Order b4 = new BidOrder("Fana", 146.5, 50);

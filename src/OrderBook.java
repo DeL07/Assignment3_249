@@ -55,9 +55,6 @@ public class OrderBook implements IAnonymous{
 			System.out.println(bidBook.first().toStringAnon());
 	}
 	
-	// Inner class with nodes using ^^ those methods and assigning them?
-	// Add spread and more functionality for use in matching engine
-	
 	public static void BestOffer() {
 		OfferOrder BestOffer;
 		BestOffer = offerBook.last();
@@ -122,7 +119,7 @@ public class OrderBook implements IAnonymous{
 			 return "Off:	" + BestOfferPrice() + "	" + BestOfferVol() + "	" + BestOfferID();
 		 }
 		 
-		 return "Clearly you fucked up";
+		 return null;
 	}
 
 	@Override

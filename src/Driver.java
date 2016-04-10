@@ -33,6 +33,10 @@ import java.util.TreeSet;
 
 public class Driver {
 	
+			// Matching engine calls priceCheck, verifies if there are entries in the orderbooks
+			// Then verifies purchase condition (Best Offer price is less than or equal to Best Bid price)
+			// True means the best offer price is LOWER or EQUAL to the best bid price
+			// False means the best offer price is HIGHER than the best bid price
 			public static boolean priceCheck(Order o){
 			 if (o.getClass().equals(OfferOrder.class)) {
 				if (OrderBook.bidBook.isEmpty() | OrderBook.offerBook.isEmpty())
@@ -53,13 +57,16 @@ public class Driver {
 			 return false;
 			}
 			
+			// Checks best offer volume against best bid volume to determine correct course of action
 			public static int volCompare(Order o) {
 				if (OrderBook.bidBook.isEmpty() | OrderBook.offerBook.isEmpty())
 					return 2;
 				else {
+					// Volume of best offer is greater than volume of best bid
 					if (OrderBook.offerBook.last().getVolume() > OrderBook.bidBook.first().getVolume()) {
 						return 1;
 					}
+					// Volume of best bid is greater than volume of best offer
 					if (OrderBook.offerBook.last().getVolume() < OrderBook.bidBook.first().getVolume()) {
 						return -1;
 					}	
@@ -68,8 +75,16 @@ public class Driver {
 
 			}
 	
-	// Matching engine
-			 public static void matching(Order o) {
+			// Matching engine
+			// 1- Checks order type (Bid or Offer)
+			// 2- Checks if Bidbook/Offerbook is empty
+			// 		- If empty, displays message and breaks from the method
+			// 3- PriceCheck method is called in while loop
+			// 		- If true (meaning there are orders that can be matched)
+			//			- Loops until there are no more matching orders
+			// 			- While looping, checks volume condition on every run so appropriate calculations are done
+			//			- Appropriate changes are completed based on remaining volume
+			public static void matching(Order o) {
 				 if (o.getClass().equals(BidOrder.class)) {
 					 System.out.println("\nMatching a new Offer Order:");
 					 System.out.println(o.toStringAnon());
@@ -80,7 +95,7 @@ public class Driver {
 						 return;
 					 }
 				 }
-				 
+				 // Order type check = OfferOrder
 				 if (o.getClass().equals(OfferOrder.class)) {
 					 System.out.println("\nMatching a new Offer Order:");
 					 System.out.println(o.toStringAnon());
@@ -90,35 +105,40 @@ public class Driver {
 						 System.out.println("Offer has been set");
 						 return;
 					 }
-					
+					// Loop for matching orders
 					while (priceCheck(o)) {
 						
 						System.out.println("\nMatch found:");
 						System.out.println(OrderBook.offerBook.last().FullDetails());
 						System.out.println(OrderBook.bidBook.first().FullDetails());
 
-						
+						// Switch for conditional volume operations
 						switch(volCompare(o)) {
-							
+						
+						// When volume is the same for both offers, sets volume for both orders to zero and removes them
 						case 0: 
 							OrderBook.offerBook.last().setVolume(0);
 							OrderBook.bidBook.first().setVolume(0);
 							OrderBook.offerBook.remove(OrderBook.offerBook.last());
 							OrderBook.bidBook.remove(OrderBook.bidBook.first());
 							break;
-						
+						// When volume of offer is greater than volume of bid
+						// Set offer volume = offer volume - bid volume
+						// Remove bid
 						case 1: 
 							OrderBook.offerBook.last().setVolume(OrderBook.offerBook.last().getVolume()-OrderBook.bidBook.first().getVolume());
 							OrderBook.bidBook.first().setVolume(0);
 							OrderBook.bidBook.remove(OrderBook.bidBook.first());
 							break;	
-							
+						// When volume of bid is greater than volume of offer 
+						// Set bid volume = bid volume - offer volume
+						// Remove offer
 						case -1:
-							OrderBook.bidBook.first().setVolume(OrderBook.bidBook.first().getVolume()-o.getVolume());
+							OrderBook.bidBook.first().setVolume(OrderBook.bidBook.first().getVolume()-OrderBook.offerBook.last().getVolume());
 							OrderBook.offerBook.last().setVolume(0);
 							OrderBook.offerBook.remove(OrderBook.offerBook.last());
 							break;
-						
+						// Break for when there are no more bids left to avoid null pointer exception
 						case 2:
 							System.out.println("No bids left");
 							break;
@@ -169,8 +189,7 @@ public class Driver {
 		System.out.println();
 		OrderBook.outputBBO();
 		
-//		IAnonymous iO1 = (IAnonymous) o1;
-//		iO1.toStringAnon();
+
 	}
 
 }

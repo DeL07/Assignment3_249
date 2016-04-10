@@ -57,36 +57,14 @@ public class Order implements Comparable, IAnonymous {
 		this.volume = volume;
 	}
 
-	// Must interact with anonymous class
 	public String toString() {
 		return "OrderBook [ID=" + ID + ", price=" + price + ", volume=" + volume + "]";
 	}
-
-	
-
-
-//	@Override
-//	public int compare(Object o1, Object o2) {
-//		Order order1 = (Order) o1;
-//		Order order2 = (Order) o2;
-//		
-//		return (int) (order1.getPrice() - order2.getPrice());
-//	}
 
 	//Equals for volume and id
 	@Override
 	public int compareTo(Object o) {
 		Order order1 = (Order) o;
-/*		if((order1.getPrice() == this.price)) {
-			if (order1.getDateCreated().before(this.getDateCreated()) ){
-				return -1;
-			}else{
-				return 1;
-			}
-
-		}
-		else
-		{*/
 		if ((order1.getPrice() - this.price) < 0)
 				return -1;
 		else if ((order1.getPrice() - this.price) > 0)
@@ -109,13 +87,11 @@ public class Order implements Comparable, IAnonymous {
 
 	@Override
 	public String toStringAnon() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String FullDetails() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

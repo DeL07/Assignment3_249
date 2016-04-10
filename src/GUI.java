@@ -10,9 +10,9 @@ public class GUI {
 	public static void main(String[] args) {
 		
 		JPanel panel = new JPanel();
-		JFrame frame = new JFrameSetup("Order Generator", 400, 200, panel);
+		JFrame frame = new JFrameSetup("Order Generator", 400, 170, panel);
 		frame.add(panel);
-
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
 	}
@@ -64,20 +64,20 @@ class JFrameSetup extends JFrame {
 		panel.add(nameText);
 
 		JButton submitButton = new JButton("Submit");
-		submitButton.setBounds(10, 120, 80, 25);
+		submitButton.setBounds(310, 25, 80, 25);
 		panel.add(submitButton);
 		
 		JButton resetButton = new JButton("Reset");
-		resetButton.setBounds(180, 120, 80, 25);
+		resetButton.setBounds(310, 55, 80, 25);
 		panel.add(resetButton);
 		
 		JSeparator separator = new JSeparator();
 		panel.add(separator);
 		
-		JLabel lastOrderDisplay = new JLabel("", SwingConstants.CENTER);
+		JLabel lastOrderDisplay = new JLabel("Last Order: N/A", SwingConstants.CENTER);
 		lastOrderDisplay.setBackground(new Color(192,192,192));
 	      lastOrderDisplay.setOpaque(true);
-		lastOrderDisplay.setBounds(0,150,400,25);
+		lastOrderDisplay.setBounds(0,120,400,25);
 		panel.add(lastOrderDisplay);
 		
 		
@@ -86,16 +86,18 @@ class JFrameSetup extends JFrame {
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				name = nameText.getText();
-				price = Double.parseDouble(priceText.getText());
-				volume = Integer.parseInt(volumeText.getText());
-				/*
-				 * try { 
-				 * double d = Double.parseDouble(text); // or
-				 * Integer.parseInt(text), etc. // OK, valid number. 
-				 * } catch (NumberFormatException nfe) 
-				 * { // Not a number. 
-				 * }
-				 */
+
+				try {
+					price = Double.parseDouble(priceText.getText());
+				} catch (NumberFormatException nfe) {
+					lastOrderDisplay.setText("Error: Enter price/volume as a number");
+				}
+				try {
+					volume = Integer.parseInt(volumeText.getText());
+				} catch (NumberFormatException nfe) {
+					lastOrderDisplay.setText("Error: Enter price/volume as a number");
+				}
+				lastOrderDisplay.setText("Last order: " + volume + " shares at $" + price);
 			}
 		});
 		resetButton.addActionListener(new ActionListener() {
@@ -103,46 +105,13 @@ class JFrameSetup extends JFrame {
 				nameText.setText(null);
 				priceText.setText(null);
 				volumeText.setText(null);
-				lastOrderDisplay.setText("new text");
+				lastOrderDisplay.setText("Last order: " + volume + " shares at $" + price);
 			}
 		});
 		 
-		 
-		
-		//ActionClass actionEvent = new ActionClass();
-
-		//submitButton.addActionListener(actionEvent);
-		//resetButton.addActionListener(actionEvent);
-
-		//submitButton.setActionCommand("1");
-		//resetButton.setActionCommand("2");
 
 	}
 }
 
-/*
- * class ActionClass implements ActionListener {
- * @Override
-	public void actionPerformed(ActionEvent e) {
-		int action = Integer.parseInt(e.getActionCommand());
-		switch (action) {
-		case 1:
-			//String cust_Name = txt_cust_Name.getText();
-			JFrame myWindow = new JFrame("YOU DID A POOPOO");
-			myWindow.setSize(200, 200);
-			myWindow.setVisible(true);
-			break;
-		case 2:
-			JFrame myWindowz = new JFrame("YOU DID A CACA");
-			myWindowz.setSize(200, 200);
-			myWindowz.setVisible(true);
-			break;
-		default:
-			break;
-		}
-
-	}
-	}
- */
 
 	

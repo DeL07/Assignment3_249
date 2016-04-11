@@ -22,7 +22,11 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 public class GUI {
+<<<<<<< Updated upstream
 
+=======
+		
+>>>>>>> Stashed changes
 	public static void main(String[] args) {
 
 		JPanel panel = new JPanel();
@@ -33,8 +37,11 @@ public class GUI {
 											// upper-left corner
 		frame.setVisible(true);
 
+<<<<<<< Updated upstream
 	}
 
+=======
+>>>>>>> Stashed changes
 }
 
 class JFrameSetup extends JFrame {

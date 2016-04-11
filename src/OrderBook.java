@@ -129,7 +129,6 @@ public class OrderBook implements IAnonymous{
 	}
 	
 	
-	
 	public class Node{
 		protected Node nextNode;
 		protected Node prevNode;

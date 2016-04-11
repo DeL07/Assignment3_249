@@ -11,10 +11,6 @@
 //   when the best offer price is less than or equal to the best bid price**.
 //   It then compares the volumes of BBO to determine appropriate calculations
 //   and volume actions and loops until the best offer price is greater than the best bid price.
-//
-//   Note**: Real world application does not match trades on a 0.10$ spread which leads me to question 
-//  		 why it is reported as a trade in the provided examples (that 0.10$ spread could represent 
-// 			 thousands of dollars or more on the stock market)
 //======================================================================================================
 
 import java.util.TreeSet;

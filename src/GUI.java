@@ -13,8 +13,8 @@
  * of converting the price and volume inputs into a double and integer so that 
  * the variables can be used to create BidOrder or OfferOrder objects, and consequently
  * be stored in the OrderBook, if need be.
- * 
  */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,31 +22,26 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 public class GUI {
-<<<<<<< Updated upstream
 
-=======
-		
->>>>>>> Stashed changes
 	public static void main(String[] args) {
 
 		JPanel panel = new JPanel();
 		JFrame frame = new JFrameSetup("Order Generator", 400, 170, panel);
 		frame.add(panel);
-		frame.setLocationRelativeTo(null); // makes window appear in center of
-											// monitor instead of in the
-											// upper-left corner
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-
-<<<<<<< Updated upstream
+		// makes window appear in center of
+		// monitor instead of in the
+		// upper-left corner
 	}
 
-=======
->>>>>>> Stashed changes
 }
 
 class JFrameSetup extends JFrame {
 
-	private static final long serialVersionUID = 1L; // default serialization UID to keep compiler happy
+	// default serialization UID to keep compiler happy
+	
+	private static final long serialVersionUID = 1L; 
 	static String price;
 	static double priceDouble;
 	static String volume;
@@ -115,8 +110,7 @@ class JFrameSetup extends JFrame {
 
 		// status bar at the bottom
 
-		JLabel lastOrderDisplay = new JLabel("Last Order: N/A",
-				SwingConstants.CENTER);
+		JLabel lastOrderDisplay = new JLabel("Last Order: N/A", SwingConstants.CENTER);
 		lastOrderDisplay.setBackground(new Color(192, 192, 192));
 		lastOrderDisplay.setOpaque(true);
 		lastOrderDisplay.setBounds(0, 120, 400, 25);
@@ -125,12 +119,12 @@ class JFrameSetup extends JFrame {
 		// Action listener for submit button.
 		// Assigns text field inputs into strings, then verifies
 		// if price is a double and volume is an integer. If they are,
-		// action listener will parse them into a double and an integer
+		//  action listener will parse them into a double and an integer
 		// (in case user wants to use the variables in part 1 of assignment)
 		// and display the order in the status bar.
-		// Otherwise, displays error message and user will be 
+		// Otherwise, displays error message and user will be
 		// prompted to enter correct input.
-		
+
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				ID = nameText.getText();
@@ -140,33 +134,31 @@ class JFrameSetup extends JFrame {
 				if (isDouble(price) && isInteger(volume)) {
 					volumeInt = Integer.parseInt(volume);
 					priceDouble = Double.parseDouble(price);
-					lastOrderDisplay.setText("Last order: " + volumeInt
-							+ " shares at " + moneyFormat.format(priceDouble));
-				} else
 					lastOrderDisplay
-							.setText("Error: Enter price/volume as a number");
+							.setText("Last order: " + volumeInt + " shares at " + moneyFormat.format(priceDouble));
+				} else
+					lastOrderDisplay.setText("Error: Enter price/volume as a number");
 
 			}
 		});
-		
+
 		// Action listener for reset button.
 		// Clears whatever is written in the text fields
 		// but still displays the most recent valid order
-		
+
 		resetButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				nameText.setText(null);
 				priceText.setText(null);
 				volumeText.setText(null);
-				lastOrderDisplay.setText("Last order: " + volumeInt
-						+ " shares at " + moneyFormat.format(priceDouble));
+				lastOrderDisplay.setText("Last order: " + volumeInt + " shares at " + moneyFormat.format(priceDouble));
 			}
 		});
 
 	}
 
 	// helper method to verify if price user entered is indeed a double
-	
+
 	public static boolean isDouble(String value) {
 		try {
 			Double.parseDouble(value);
@@ -177,7 +169,7 @@ class JFrameSetup extends JFrame {
 	}
 
 	// helper method to verify if volume entered by user is an integer
-	
+
 	public static boolean isInteger(String value) {
 		try {
 			Integer.parseInt(value);
@@ -188,5 +180,3 @@ class JFrameSetup extends JFrame {
 	}
 
 }
-
-	
